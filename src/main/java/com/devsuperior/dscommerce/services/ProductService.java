@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -23,15 +25,14 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
-        Product product =repository.findById(id).orElseThrow(
-                () -> new ResourcesNotFoudException("Recurso não encontrado"));
+        Product product =repository.findById(id).get();
         return new ProductDTO(product);
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable){
-        Page<Product> result =repository.findAll(pageable);
-        return result.map(x-> new ProductDTO(x));
+    public List<ProductDTO> findAll(){
+        List<Product> result =repository.findAll();
+        return result.stream().map(x-> new ProductDTO(x)).toList();
     }
 
     @Transactional

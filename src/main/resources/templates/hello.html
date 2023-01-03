@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<table>
+<div th:if="${produtos != null and !produtos.empty}">
+    <div th:each=" prod : ${produtos}">Product
+        <span th:text="${prod.name}">Nome</span><br>
+        <span th:text="${prod.description}">Nome</span>
+    </div>
+</div>
+
+<table th:if="${products != null and !products.empty}">
     <thead>
     <tr>
         <th> Name </th>
@@ -13,9 +20,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:if="${products.empty}">
-        <td colspan="2"> No Books Available </td>
-    </tr>
+<!--    <tr th:if="${products == null or products.empty}">-->
+<!--        <td colspan="2"> No Books Available </td>-->
+<!--    </tr>-->
     <tr th:each="product : ${products}">
         <td><span th:text="${product.name}"> Name </span></td>
         <td><span th:text="${product.description}"> Description </span></td>

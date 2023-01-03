@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +20,33 @@ public class ProductController {
     private ProductService service;
 
 
+//    @GetMapping("/hello/{id}")
+//    public String findById(@NotNull Model model, @PathVariable Long id){
+//        List list = new ArrayList();
+//        ProductDTO dto =  service.findById(id);
+//        list.add(dto);
+//        model.addAttribute("products", list);
+//        return "hello";
+//    }
+
+//    @GetMapping("/hello/{id}")
+//    public ModelAndView findById(@PathVariable Long id){
+//        ModelAndView modelAndView = new ModelAndView("hello");
+//        List list = new ArrayList();
+//        ProductDTO dto =  service.findById(id);
+//        list.add(dto);
+//        modelAndView.addObject ("products",list);
+//        return modelAndView;
+//    }
+
     @GetMapping("/hello/{id}")
-    public String findById(@NotNull Model model, @PathVariable Long id){
+    public ModelAndView findById(@PathVariable Long id){
         List list = new ArrayList();
+        ModelAndView modelAndView = new ModelAndView("hello");
         ProductDTO dto =  service.findById(id);
         list.add(dto);
-        model.addAttribute("products", list);
-        return "hello";
+        modelAndView.addObject ("produtos",list);
+        return modelAndView;
     }
 
 //    @GetMapping(value = "/products/{id}")
@@ -36,10 +57,17 @@ public class ProductController {
 
 
 
+//    @GetMapping("/hello")
+//    public String findAll(@NotNull Model model){
+//          model.addAttribute("products", service.findAll());
+//        return "hello";
+//    }
+
     @GetMapping("/hello")
-    public String findAll(@NotNull Model model){
-          model.addAttribute("products", service.findAll());
-        return "hello";
+    public ModelAndView findAll(){
+        ModelAndView modelAndView = new ModelAndView("hello"); /*"hello"*/
+        modelAndView.addObject("products", service.findAll());
+        return modelAndView;
     }
 
 

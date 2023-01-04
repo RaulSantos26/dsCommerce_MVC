@@ -2,12 +2,13 @@ package com.devsuperior.dscommerce.controllers;
 
 import com.devsuperior.dscommerce.dto.ProductDTO;
 import com.devsuperior.dscommerce.services.ProductService;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -39,14 +40,15 @@ public class ProductController {
 //        return modelAndView;
 //    }
 
-    @GetMapping("/hello/{id}")
-    public ModelAndView findById(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ModelAndView findById(@PathVariable Long id) {
         List list = new ArrayList();
-        ModelAndView modelAndView = new ModelAndView("hello");
-        ProductDTO dto =  service.findById(id);
+        ModelAndView mv = new ModelAndView("index");
+        ProductDTO dto = service.findById(id);
         list.add(dto);
-        modelAndView.addObject ("produtos",list);
-        return modelAndView;
+        mv.addObject("produtos", list);
+
+        return mv;
     }
 
 //    @GetMapping(value = "/products/{id}")
@@ -56,21 +58,39 @@ public class ProductController {
 //    }
 
 
-
 //    @GetMapping("/hello")
 //    public String findAll(@NotNull Model model){
 //          model.addAttribute("products", service.findAll());
 //        return "hello";
 //    }
 
-    @GetMapping("/hello")
-    public ModelAndView findAll(){
-        ModelAndView modelAndView = new ModelAndView("hello"); /*"hello"*/
-        modelAndView.addObject("products", service.findAll());
-        return modelAndView;
+    @GetMapping("/")
+    public ModelAndView findAll() {
+        ModelAndView mv = new ModelAndView("index"); /*"hello"*/
+        mv.addObject("products", service.findAll());
+        return mv;
     }
 
 
+    @GetMapping("/hello")
+    public String form() {
+
+        return "hello";
+    }
+
+    @PostMapping("/hello")
+    public ModelAndView create(@Valid ProductDTO dto, BindingResult result) {
+        if (result.hasErrors()){
+            System.out.println("\n******Tem erros******\n");
+            ModelAndView mv = new ModelAndView("hello");
+            return mv;
+        }
+        else {
+            dto= service.insert(dto);
+            return new ModelAndView("redirect:/index");
+        }
+
+    }
 
 //    @PostMapping
 //    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto){

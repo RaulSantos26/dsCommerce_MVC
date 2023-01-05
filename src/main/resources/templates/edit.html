@@ -6,27 +6,28 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
+<header>Product #<span th:utext="${product.id}"></span></header>
 
-<form  th:object="${productDTO}"  action="/hello" method="post" >
+<form  th:object="${productDTO}"  th:action="@{/{product.id}(product.id = ${product.id})}" method="post" >
 
     <div class="form-group">
         <label for="name">Nome</label>
-        <input type="text" class="form-control" th:errorclass ="is-invalid" id="name"  th:field="*{name}" placeholder="Seu nome">
+        <input type="text" class="form-control" th:errorclass ="is-invalid" id="name"  th:field="${product.name}" placeholder="Seu nome">
         <div class="invalid-feedback" th:errors="*{name}"></div>
     </div>
     <div class="form-group">
         <label for="description">Descrição</label>
-        <input type="text" class="form-control" th:errorclass ="is-invalid" id="description" th:field="*{description}" placeholder="Descrição">
+        <input type="text" class="form-control" th:errorclass ="is-invalid" id="description" th:field="${product.description}" placeholder="Descrição">
         <div class="invalid-feedback" th:errors="*{description}" ></div>
     </div>
     <div class="form-group">
         <label for="price">Preco</label>
-        <input type="number" class="form-control" th:errorclass ="is-invalid" id="price" th:field="*{price}" placeholder="Preço">
+        <input type="number" class="form-control" th:errorclass ="is-invalid" id="price" th:field="${product.price}" placeholder="Preço">
         <div class="invalid-feedback" th:errors="*{price}" ></div>
     </div>
     <div class="form-group">
         <label for="imgUrl">Url</label>
-        <input type="text" class="form-control" id="imgUrl" th:field="*{imgUrl}" placeholder="Url">
+        <input type="text" class="form-control" id="imgUrl" th:field="${product.imgUrl}" placeholder="Url">
     </div>
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>

@@ -6,28 +6,25 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-<div th:if="${produtos != null and !produtos.empty}">
-    <div th:each=" prod : ${produtos}">Product
-        <span th:text="${prod.name}">Nome</span><br>
+<header>Product #<span th:utext="${product.id}"></span></header>
+<main>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <b>Nome:</b> <span th:utext="${product.name}"></span></br>
+                <b>Descrição:</b> <span th:utext="${product.description}"></span></br>
+                <b>Preço:</b> <span th:utext="${product.price}"></span></br>
+                <b>Url:</b> <span th:utext="${product.imgUrl}"></span></br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a th:href="@{/{product.id}/edit(product.id = ${product.id})}">Editar</a> <a href="/">Voltar</a>
+            </div>
+        </div>
     </div>
-</div>
-<table th:if="${products != null and !products.empty}">
-    <thead>
-    <tr>
-        <th> Name</th>
-        <th> Description</th>
-        <th> Price</th>
-    </tr>
-    </thead>
-    <tbody>
+</main>
 
-    <tr th:each="product : ${products}">
-        <td><span th:text="${product.name}"> Name </span></td>
-        <td><span th:text="${product.description}"> Description </span></td>
-        <td><span th:text="${product.price}"> Price </span></td>
-    </tr>
-    </tbody>
-</table>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

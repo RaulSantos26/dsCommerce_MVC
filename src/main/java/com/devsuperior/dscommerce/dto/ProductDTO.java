@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.lang.NonNull;
 
 @Getter
 @Setter
@@ -23,6 +25,7 @@ public class ProductDTO {
     private String description;
 
     @Positive(message = "O preço deve ser positivo")
+    @NonNull
     private Double price;
 
     private String imgUrl;

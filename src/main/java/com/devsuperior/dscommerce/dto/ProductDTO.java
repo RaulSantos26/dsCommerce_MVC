@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 
 @Getter

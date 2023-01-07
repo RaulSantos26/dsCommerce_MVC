@@ -54,7 +54,7 @@ public class ProductController {
     public ModelAndView edit(@PathVariable Long id, ProductDTO dto) {
         try {
             dto = service.findById(id);
-            ModelAndView mv = new ModelAndView("/edit");
+            ModelAndView mv = new ModelAndView("edit");
             mv.addObject("product", dto);
             System.out.println("$$$$ " + dto + "$$$$");
             return mv;
@@ -65,11 +65,14 @@ public class ProductController {
         }
     }
 
+
     @PostMapping("/{id}")
     public ModelAndView update(@PathVariable Long id, @Valid ProductDTO dto, @NotNull BindingResult result) {
         if (result.hasErrors()) {
             System.out.println("\n******Tem erros******\n");
-            ModelAndView mv = new ModelAndView("/hello");
+            ModelAndView mv = new ModelAndView("edit");
+            mv.addObject("product", dto);
+            mv.addObject("idProduct", id);
             return mv;
 
         } else {
@@ -104,6 +107,14 @@ public class ProductController {
         }
 
     }
+
+    @GetMapping("delete/{id}")
+    public ModelAndView deleteProduct(@PathVariable("id") long id) {
+        ProductDTO dto = service.findById(id);
+        service.delete(dto.getId());
+        return new ModelAndView("redirect:/");
+    }
+
 
 //    @PostMapping
 //    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto){

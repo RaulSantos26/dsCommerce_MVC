@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ProductService {
@@ -65,6 +66,9 @@ public class ProductService {
             repository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e){
+            throw new ResourcesNotFoudException("Recurso não encontrado");
+        }
+        catch (NoSuchElementException e){
             throw new ResourcesNotFoudException("Recurso não encontrado");
         }
         catch (DataIntegrityViolationException e){

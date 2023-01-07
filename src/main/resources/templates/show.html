@@ -20,6 +20,7 @@
         <div class="row">
             <div class="col-12">
                 <a th:href="@{/{product.id}/edit(product.id = ${product.id})}">Editar</a> <a href="/">Voltar</a>
+                <a th:href="@{/delete/{product.id}(product.id = ${product.id})}">Deletar</a>
             </div>
         </div>
     </div>

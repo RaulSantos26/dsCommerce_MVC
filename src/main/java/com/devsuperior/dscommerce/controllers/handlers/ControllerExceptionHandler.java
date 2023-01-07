@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Instant;
 
@@ -26,14 +27,29 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+//    @ExceptionHandler(DatabaseException.class)
+//    public ResponseEntity<CustomError> database(DatabaseException e,
+//                                                        HttpServletRequest request) {
+//        HttpStatus status = HttpStatus.BAD_REQUEST;
+//        CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(),
+//                request.getRequestURI());
+//        return ResponseEntity.status(status).body(err);
+//    }
+
     @ExceptionHandler(DatabaseException.class)
-    public ResponseEntity<CustomError> database(DatabaseException e,
-                                                        HttpServletRequest request) {
+    public ModelAndView database(DatabaseException e,
+                                                HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(),
                 request.getRequestURI());
-        return ResponseEntity.status(status).body(err);
+        System.out.println("$$$$$$ " + err.getError() + "$$$$$$");
+        System.out.println("$$$$$$ " + err.getStatus() + "$$$$$$");
+        ModelAndView mv = new ModelAndView("error");
+        mv.addObject("error", err);
+        return mv;
     }
+
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomError> methodArgumentNotValidation(MethodArgumentNotValidException e,

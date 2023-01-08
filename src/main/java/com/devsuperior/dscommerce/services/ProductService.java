@@ -11,10 +11,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -26,8 +28,19 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
-        Product product =repository.findById(id).get();
-        return new ProductDTO(product);
+        try{
+            Product product =repository.findById(id).get();
+            return new ProductDTO(product);
+        }
+        catch (EntityNotFoundException e){
+            throw new DatabaseException("Recurso não encontrado");
+        }
+        catch (NoSuchElementException e) {
+            throw new DatabaseException("Recurso não encontrado");
+        }
+
+
+
     }
 
     @Transactional(readOnly = true)
@@ -68,9 +81,7 @@ public class ProductService {
         catch (EmptyResultDataAccessException e){
             throw new ResourcesNotFoudException("Recurso não encontrado");
         }
-        catch (NoSuchElementException e){
-            throw new ResourcesNotFoudException("Recurso não encontrado");
-        }
+
         catch (DataIntegrityViolationException e){
             throw new DatabaseException("Falha de integridade referencial");
 

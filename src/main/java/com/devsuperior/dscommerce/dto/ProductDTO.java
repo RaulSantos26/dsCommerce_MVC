@@ -1,7 +1,9 @@
 package com.devsuperior.dscommerce.dto;
 
 import com.devsuperior.dscommerce.entities.Product;
+import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -24,7 +26,7 @@ public class ProductDTO {
     private String description;
 
     @Positive(message = "O preço deve ser positivo")
-    @NonNull
+    @NotNull(message = "Campo requido")
     private Double price;
 
     private String imgUrl;

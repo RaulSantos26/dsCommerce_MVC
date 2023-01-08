@@ -19,12 +19,16 @@ import java.time.Instant;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(ResourcesNotFoudException.class)
-    public ResponseEntity<CustomError> resourcesNotFoud(ResourcesNotFoudException e,
+    public ModelAndView resourcesNotFoud(ResourcesNotFoudException e,
                                                         HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(),
                 request.getRequestURI());
-        return ResponseEntity.status(status).body(err);
+        System.out.println("$$$$$$ " + err.getError() + "$$$$$$");
+        System.out.println("$$$$$$ " + err.getStatus() + "$$$$$$");
+        ModelAndView mv = new ModelAndView("error");
+        mv.addObject("error", err);
+        return mv;
     }
 
 //    @ExceptionHandler(DatabaseException.class)

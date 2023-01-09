@@ -9,14 +9,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -52,11 +48,19 @@ public class ProductService {
     @Transactional
     public ProductDTO insert(ProductDTO dto){
 
-        Product entity = new Product();
-        copyDtoToEntity(dto, entity);
-        entity = repository.save(entity);
-        return new ProductDTO(entity);
+        try{
+            Product entity = new Product();
+            copyDtoToEntity(dto, entity);
+            entity = repository.save(entity);
+            return new ProductDTO(entity);
+
+        }
+        catch (EntityNotFoundException e){
+            throw new ResourcesNotFoudException("Recurso não encontrado");
+        }
+
     }
+
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto){

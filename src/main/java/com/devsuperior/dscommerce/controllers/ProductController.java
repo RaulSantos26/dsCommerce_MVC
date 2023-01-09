@@ -97,6 +97,8 @@ public class ProductController {
 
     @PostMapping("/hello")
     public ModelAndView insert(@Valid ProductDTO dto, @NotNull BindingResult result) {
+//        String message = result.getAllErrors().get(0).getDefaultMessage();
+
         if (result.hasErrors()) {
             System.out.println("\n******Tem erros******\n");
             ModelAndView mv = new ModelAndView("hello");
